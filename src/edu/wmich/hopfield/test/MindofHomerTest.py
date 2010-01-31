@@ -5,8 +5,8 @@ Created on Jan 30, 2010
 '''
 import unittest
 
-from edu.wmich.hopfield.MindofHomer import dec2bin, stable_state_factory, matrix_creator
-
+from edu.wmich.hopfield.MindofHomer import dec2bin, state_factory, matrix_creator
+from edu.wmich.hopfield.main import prune_input
 
 class MindofHomerTest(unittest.TestCase):
     
@@ -28,15 +28,20 @@ class MindofHomerTest(unittest.TestCase):
         self.assertEqual('0001001', dec2bin(9)) # '9'
     
     def testStableStateLength(self):
-        self.assertEqual(70, len(stable_state_factory('helloworld')))
+        self.assertEqual(70, len(state_factory('helloworld')))
 
     def testStableStateContent(self):
-        stable_state = stable_state_factory('hello world!')
+        stable_state = state_factory('hello world!')
         for ch in stable_state:
             self.assert_(ch in [0, 1])
     
     def testMatrixCreator(self):
-        self.assertEqual(70, len(matrix_creator(stable_state_factory('helloworld'))))
+        self.assertEqual(70, len(matrix_creator(state_factory('helloworld'))))
+        
+    def testPruneInput(self):
+        self.assertEqual(10, len(prune_input('helloworld!')))
+        self.assertEqual(10, len(prune_input('chang')))
+        
 
 if __name__ == "__main__":
     unittest.main()

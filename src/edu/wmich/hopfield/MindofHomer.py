@@ -19,14 +19,13 @@ def dec2bin(decimal):
         bstr = bstr[1:]
     return bstr.rjust(7, '0')
 
-def stable_state_factory(stable_input):
-    stable_state_set = []
+def state_factory(stable_input):
+    state_set = []
     for i in range(len(stable_input)):
         bstr = dec2bin(ord(stable_input[i]))
         for b in range(7):
-            stable_state_set.append(int(bstr[b]))
-    return stable_state_set
-
+            state_set.append(int(bstr[b]))
+    return state_set
 #    return [[bstr] for bstr in [dec2bin(ord(c)) for c in [ch for ch in stable_input]]]
 
 def matrix_creator(stable_set):
@@ -41,3 +40,15 @@ def matrix_creator(stable_set):
         weight_matrix.append(sub_matrix)
 
     return weight_matrix
+
+def prune_input(input):
+    return input.ljust(10, ' ') if len(input) < 10 else input[:10]
+
+def state2string(state):
+    resulting = ''
+    str_state = [str(b) for b in state]
+    binary_string = ''.join(str_state)
+    for i in range(10):
+        resulting += chr(int(binary_string[i*7:(i+1)*7], 2))
+    return resulting
+        
