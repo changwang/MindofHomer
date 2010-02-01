@@ -4,48 +4,44 @@ Created on Jan 30, 2010
 @author: changwang
 '''
 
-import random
-
-from edu.wmich.hopfield.MindofHomer import prune_input, state_factory, matrix_creator, state2string
-from edu.wmich.hopfield.utils import matrixFormatter
-
-def random_update(state, weight_matrix):
-    sum = 0
-    neuron = random.randint(0, 69)
-    weights = weight_matrix[neuron]
-    for i in range(70):
-        sum += state[i] * weights[i]
-    return (neuron, threshold_func(sum))
-    
-def threshold_func(input_sum):
-    return 1 if input_sum > 0 else 0
+from edu.wmich.hopfield.MindofHomer import prune_input, state_factory, matrix_creator, state2string, energy_func, random_update
 
 def main():
-    #stable_str = raw_input("Please type the stable string, which you want the system to converge at: ")
-    #stable_str = prune_input(stable_str)
-    stable_str = prune_input('changwang!')
-#    print "'" + stable_str + "'"
+    stable_str = raw_input("Please type the stable string, which you want the system to converge to: ")
+    stable_str = prune_input(stable_str)
     
     matrix = matrix_creator(state_factory(stable_str))
     
-    #matrixFormatter(matrix)
+    init_str = raw_input("Please type the initial string for the system: ")
+    init_str = prune_input(init_str)
     
-#    print matrix
-    
-#    init_str = raw_input("Please type the initial string for the system: ")
-#    init_str = prune_input(init_str)
-    init_str = prune_input('wangchang')
-#    print "'" + init_str + "'"
     init_state = state_factory(init_str)
-#    print init_state
-    #for i in range(100):
-    update_str = ''
-    while(update_str != stable_str):
-        neuron, output = random_update(init_state, matrix)
-        init_state[neuron] = output
     
-        update_str = state2string(init_state)
-        print update_str
+    state = init_state[:]
+
+    update_str = ''
+    step = 0
+    while(update_str != stable_str):
+        neuron, output = random_update(state, matrix)
+        state[neuron] = output
+        
+        step += 1
+        
+        print "This is STEP '" + str(step) + "'"
+        
+        print "neuron " + str(neuron) + " is updating"
+        
+        print "The value of energy function is: " + str(energy_func(state, matrix))
+    
+        update_str = state2string(state)
+        
+        if update_str == stable_str:
+            print "====== Come to Stable ======"
+            print "'" + update_str + "'"
+            print "============================"
+        else:
+            print "Current state interpreted to string is: '" + update_str + "'"
+        print
 
 if __name__ == '__main__':
     main()

@@ -4,6 +4,8 @@ Created on Jan 30, 2010
 @author: changwang
 '''
 
+import random
+
 HEXDICT = {
     '0': '0000', '1': '0001', '2': '0010', '3': '0011', '4': '0100', '5': '0101',
     '6': '0110', '7': '0111', '8': '1000', '9': '1001', 'a': '1010', 'b': '1011',
@@ -52,3 +54,20 @@ def state2string(state):
         resulting += chr(int(binary_string[i*7:(i+1)*7], 2))
     return resulting
         
+def random_update(state, weight_matrix):
+    sum = 0
+    neuron = random.randint(0, 69)
+    weights = weight_matrix[neuron]
+    for i in range(70):
+        sum += state[i] * weights[i]
+    return (neuron, _threshold_func(sum))
+
+def _threshold_func(input_sum):
+    return 1 if input_sum > 0 else 0
+        
+def energy_func(state, weight_matrix):
+    energy = 0
+    for i, s_i in enumerate(state):
+        for j, s_j in enumerate(state):
+            energy += s_i * s_j * weight_matrix[i][j]
+    return - (0.5 * energy)
