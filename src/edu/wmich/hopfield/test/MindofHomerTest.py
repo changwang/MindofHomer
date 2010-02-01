@@ -5,7 +5,7 @@ Created on Jan 30, 2010
 '''
 import unittest
 
-from edu.wmich.hopfield.MindofHomer import dec2bin, state_factory, matrix_creator
+from edu.wmich.hopfield.MindofHomer import dec2bin, state_factory, matrix_creator, state2string
 from edu.wmich.hopfield.main import prune_input
 
 class MindofHomerTest(unittest.TestCase):
@@ -42,6 +42,19 @@ class MindofHomerTest(unittest.TestCase):
         self.assertEqual(10, len(prune_input('helloworld!')))
         self.assertEqual(10, len(prune_input('chang')))
         
+    def testState2String(self):
+        self.assertEqual('A', state2string([1, 0, 0, 0, 0, 0, 1]))
+        self.assertEqual('a', state2string([1, 1, 0, 0, 0, 0, 1]))
+        
+        self.assertEqual('B', state2string([1, 0, 0, 0, 0, 1, 0]))
+        self.assertEqual('b', state2string([1, 1, 0, 0, 0, 1, 0]))
+        
+        self.assertEqual('Z', state2string([1, 0, 1, 1, 0, 1, 0]))
+        self.assertEqual('z', state2string([1, 1, 1, 1, 0, 1, 0]))
+        
+        self.assertEqual(' ', state2string([0, 1, 0, 0, 0, 0, 0]))
+        
+        self.assertEqual('1', state2string([0, 0, 0, 0, 0, 0, 1]))
 
 if __name__ == "__main__":
     unittest.main()
