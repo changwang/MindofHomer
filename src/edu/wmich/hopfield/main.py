@@ -7,6 +7,9 @@ Created on Jan 30, 2010
 from edu.wmich.hopfield.MindofHomer import prune_input, state_factory, matrix_creator, state2string, energy_func, random_update
 
 def main():
+    """ Entry of my program, ask user to input two strings,
+    first one is the stable string, the other one is the initial string. """
+    
     stable_str = raw_input("Please type the stable string, which you want the system to converge to: ")
     stable_str = prune_input(stable_str)
     

@@ -9,6 +9,7 @@ from edu.wmich.hopfield.MindofHomer import dec2bin, state_factory, matrix_creato
 from edu.wmich.hopfield.main import prune_input
 
 class MindofHomerTest(unittest.TestCase):
+    """ Unittest for core functions. """
     
     def testDec2Bin(self):
         self.assertEqual('1000001', dec2bin(65)) # 'A'
